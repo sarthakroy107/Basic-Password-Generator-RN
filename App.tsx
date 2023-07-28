@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-quotes */
 /* eslint-disable prettier/prettier */
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Clipboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -46,11 +46,14 @@ const App = () => {
     console.log('PASSWORD: ' + newPassword);
     return newPassword;
   };
+  // const handleCopyToClipboardd = (text:string) => {
+  //   Clipboard.setString(text);
+  // }
   return (
     <ScrollView keyboardShouldPersistTaps="always" >
       <SafeAreaView className='w-full min-h-screen bg-black text-white'>
-        <View>
-          <Text className='text-white'>Password Generator</Text>
+        <View className=''>
+          <Text className='text-white text-center my-3 text-3xl font-medium'>Password Generator</Text>
           <Formik
             initialValues={{ passwordLength: '' }}
             //validationSchema={PasswordSchema}
@@ -59,7 +62,7 @@ const App = () => {
           >
             {({ handleChange, handleSubmit, values }) => (
               <View>
-                <TextInput className='text-white outline-dashed outline-white'
+                <TextInput className='text-white outline-dashed outline-white bg-yellow-100/25 m-2 rounded-lg text-lg px-2'
                   onChangeText={handleChange('passwordLength')}
                   value={values.passwordLength}
                   keyboardType='numeric'
@@ -99,11 +102,11 @@ const App = () => {
               </View>
             )}
           </Formik>
-          <Text>
+          <View className='bg-yellow-200/50 p-3 m-3 rounded-lg'>
             {
               isGenerated && (
-                <View>
-                  <Text className='text-white'>
+                <View className='flex flex-row justify-center items-center px-1'>
+                  <Text selectable={true} className='text-white flex flex-row justify-center text-xl font-semibold'>
                     {
                       password
                     }
@@ -111,7 +114,7 @@ const App = () => {
                 </View>
               )
             }
-          </Text>
+          </View>
         </View>
       </SafeAreaView>
     </ScrollView>
