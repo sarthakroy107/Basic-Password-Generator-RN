@@ -46,6 +46,14 @@ const App = () => {
     console.log('PASSWORD: ' + newPassword);
     return newPassword;
   };
+
+  const resetFields = () => {
+    setIsGenerated(false);
+    setNumbers(false);
+    setSpecialCharacter(false);
+    setUpperCase(false);
+    setPassword('');
+  };
   // const handleCopyToClipboardd = (text:string) => {
   //   Clipboard.setString(text);
   // }
@@ -56,17 +64,22 @@ const App = () => {
           <Text className='text-white text-center my-3 text-3xl font-medium'>Password Generator</Text>
           <Formik
             initialValues={{ passwordLength: '' }}
-            //validationSchema={PasswordSchema}
+            validationSchema={PasswordSchema}
             onSubmit={values => {console.log(values);
-            passwordLogic(+values.passwordLength);}}
+            passwordLogic(+values.passwordLength);
+            }}
           >
-            {({ handleChange, handleSubmit, values }) => (
+            {({ handleChange, handleSubmit, handleReset, values }) => (
               <View>
-                <TextInput className='text-white outline-dashed outline-white bg-yellow-100/25 m-2 rounded-lg text-lg px-2'
-                  onChangeText={handleChange('passwordLength')}
-                  value={values.passwordLength}
-                  keyboardType='numeric'
-                />
+                <View className='flex flex-row justify-between'>
+                  <Text className='text-xl text-white p-1'>Password length</Text>
+                  <TextInput className='text-white outline-dashed outline-white w-28 bg-yellow-100/25 m-2 rounded-lg text-lg px-2'
+                    onChangeText={handleChange('passwordLength')}
+                    value={values.passwordLength}
+                    keyboardType='numeric'
+                    placeholder='4-16'
+                  />
+                </View>
                 <View style={styles.checkDiv}>
                   <Text className='text-white'>Upper case</Text>
                   <BouncyCheckbox
@@ -94,18 +107,21 @@ const App = () => {
                     fillColor="#29AB87"
                     />
                 </View>
-                <View className='flex flex-row justify-center items-center'>
-                  <TouchableOpacity className='bg-blue-300 text-white p-2 rounded-lg' onPress={handleSubmit}>
+                <View className='flex flex-row justify-evenly items-center my-3'>
+                  <TouchableOpacity className='bg-green-400 text-white p-2 px-24 rounded-lg' onPress={handleSubmit}>
                     <Text>Submit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity className='bg-blue-300 text-white p-2 px-9 rounded-lg' onPress={()=> {handleReset(); resetFields();}}>
+                    <Text>Reset</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             )}
           </Formik>
-          <View className='bg-yellow-200/50 p-3 m-3 rounded-lg'>
+          <View>
             {
               isGenerated && (
-                <View className='flex flex-row justify-center items-center px-1'>
+                <View className='flex flex-row justify-center items-center px-1 bg-yellow-200/50 p-3 m-3 rounded-lg'>
                   <Text selectable={true} className='text-white flex flex-row justify-center text-xl font-semibold'>
                     {
                       password
